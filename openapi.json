@@ -1,0 +1,500 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Student Course Selection System API - OpenAPI 3.1",
+    "description": "This is a sample Student Course Selection System API based on the OpenAPI 3.1 specification.\n\nReferences:\n- [HTTP response status codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status)",
+    "contact": {
+      "email": "fangyu070899@gmail.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version": "0.0.1"
+  },
+  "servers": [
+    {
+      "url": "https://petstore3.swagger.io/api/v3"
+    }
+  ],
+  "tags": [
+    {
+      "name": "courses",
+      "description": "Operations about courses"
+    },
+    {
+      "name": "instructors",
+      "description": "Operations about courses"
+    }
+  ],
+  "paths": {
+    "/courses": {
+      "get": {
+        "tags": [
+          "courses"
+        ],
+        "summary": "Get Course List API",
+        "description": "Fetch a list of courses with their basic information, including the instructor's details.",
+        "operationId": "getCourses",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 2
+            },
+            "description": "Limit the number of courses returned"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Course"
+                  }
+                },
+                "example": [
+                  {
+                    "course_id": 0,
+                    "course_name": "Introduction to AI",
+                    "description": "An introductory course on Artificial Intelligence.",
+                    "start_time": "1300",
+                    "end_time": "1500",
+                    "instructor": {
+                      "instructor_id": 1,
+                      "name": "John Doe",
+                      "email": "john.doe@example.com"
+                    }
+                  },
+                  {
+                    "course_id": 1,
+                    "course_name": "Advanced Machine Learning",
+                    "description": "A course on advanced topics in Machine Learning.",
+                    "start_time": "0900",
+                    "end_time": "1100",
+                    "instructor": {
+                      "instructor_id": 2,
+                      "name": "Jane Smith",
+                      "email": "jane.smith@example.com"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "courses"
+        ],
+        "summary": "Create a new course",
+        "operationId": "createCourse",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Course"
+              },
+              "example": 
+                {
+                  "course_id": 0,
+                  "course_name": "Introduction to AI",
+                  "description": "An introductory course on Artificial Intelligence.",
+                  "start_time": "1300",
+                  "end_time": "1500",
+                  "instructor": {
+                    "instructor_id": 1,
+                    "name": "John Doe",
+                    "email": "john.doe@example.com"
+                  }
+                }
+              
+            }
+          }
+        },
+      "responses": {
+          "201": {
+            "description": "Course created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Course"
+                },
+              "example": 
+                {
+                  "course_id": 0,
+                  "course_name": "Introduction to AI",
+                  "description": "An introductory course on Artificial Intelligence.",
+                  "start_time": "1300",
+                  "end_time": "1500",
+                  "instructor": {
+                    "instructor_id": 1,
+                    "name": "John Doe",
+                    "email": "john.doe@example.com"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/courses/{course_id}": {
+      "put": {
+        "tags": [
+          "courses"
+        ],
+        "summary": "Update a course",
+        "operationId": "updateCourse",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "course_id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "example":0,
+            "description": "ID of the course to update"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Course"
+              },
+              "example": 
+                {
+                  "course_id": 0,
+                  "course_name": "Introduction to AI",
+                  "description": "An introductory course on Artificial Intelligence.",
+                  "start_time": "1300",
+                  "end_time": "1500",
+                  "instructor": {
+                    "instructor_id": 2,
+                    "name": "Jane Smith",
+                    "email": "jane.smith@example.com"
+                  }
+                }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Course updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Course"
+                },
+              "example": 
+                {
+                  "course_id": 0,
+                  "course_name": "Introduction to AI",
+                  "description": "An introductory course on Artificial Intelligence.",
+                  "start_time": "1300",
+                  "end_time": "1500",
+                  "instructor": {
+                    "instructor_id": 2,
+                    "name": "Jane Smith",
+                    "email": "jane.smith@example.com"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid course ID format. The ID must be a valid integer."
+          },
+          "401": {
+            "description": "Unauthorized. Authentication is required and has failed or has not yet been provided."
+          },
+          "403": {
+            "description": "Forbidden. The server understood the request but refuses to authorize it."
+          },
+          "404": {
+            "description": "Course not found. No course with the specified ID exists."
+          },
+          "405": {
+            "description": "Method Not Allowed. The HTTP method used is not supported for this endpoint."
+          },
+          "500": {
+            "description": "Internal Server Error. An unexpected condition was encountered on the server."
+          },
+          "502": {
+            "description": "Bad Gateway. The server was acting as a gateway or proxy and received an invalid response."
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "courses"
+        ],
+        "summary": "Delete a course",
+        "operationId": "deleteCourse",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "course_id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID of the course to delete"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Course deleted successfully"
+          },
+          "400": {
+            "description": "Invalid course ID format. The ID must be a valid integer."
+          },
+          "401": {
+            "description": "Unauthorized. Authentication is required and has failed or has not yet been provided."
+          },
+          "403": {
+            "description": "Forbidden. The server understood the request but refuses to authorize it."
+          },
+          "404": {
+            "description": "Course not found. No course with the specified ID exists."
+          },
+          "405": {
+            "description": "Method Not Allowed. The HTTP method used is not supported for this endpoint."
+          },
+          "500": {
+            "description": "Internal Server Error. An unexpected condition was encountered on the server."
+          },
+          "502": {
+            "description": "Bad Gateway. The server was acting as a gateway or proxy and received an invalid response."
+          }
+        }
+      }
+    },
+    "/instructors": {
+      "get": {
+        "tags": [
+          "instructors"
+        ],
+        "summary": "Get list of instructors",
+        "operationId": "getInstructors",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 2
+            },
+            "description": "Limit the number of instructors returned"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A JSON array of instructor objects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Instructor"
+                  }
+                },
+                "example": [
+                  {
+                    "instructor_id": 1,
+                    "name": "John Doe",
+                    "email": "john.doe@example.com"
+                  },
+                  {
+                    "instructor_id": 2,
+                    "name": "Jane Smith",
+                    "email": "jane.smith@example.com"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "instructors"
+        ],
+        "summary": "Create a new instructor",
+        "operationId": "createInstructor",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Instructor"
+              },
+                "example": 
+                  {
+                    "instructor_id": 3,
+                    "name": "Jason White",
+                    "email": "jason.white@example.com"
+                  }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Instructor created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Instructor"
+                },
+                "example": 
+                  {
+                    "instructor_id": 3,
+                    "name": "Jason White",
+                    "email": "jason.white@example.com"
+                  }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/instructors/{instructor_id}/courses": {
+      "get": {
+        "tags": [
+          "instructors"
+        ],
+        "summary": "Get courses by a specific instructor",
+        "operationId": "getCoursesByInstructor",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "instructor_id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "example":2,
+            "description": "ID of the instructor"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 2
+            },
+            "description": "Limit the number of courses returned"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A JSON array of course objects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Course"
+                  }
+                },
+              "example": [
+                  {
+                    "course_id": 0,
+                    "course_name": "Introduction to AI",
+                    "description": "An introductory course on Artificial Intelligence.",
+                    "start_time": "1300",
+                    "end_time": "1500",
+                    "instructor": {
+                      "instructor_id": 2,
+                      "name": "Jane Smith",
+                      "email": "jane.smith@example.com"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid instructor ID format. The ID must be a valid integer."
+          },
+          "401": {
+            "description": "Unauthorized. Authentication is required and has failed or has not yet been provided."
+          },
+          "403": {
+            "description": "Forbidden. The server understood the request but refuses to authorize it."
+          },
+          "404": {
+            "description": "Instructor not found. No instructor with the specified ID exists."
+          },
+          "405": {
+            "description": "Method Not Allowed. The HTTP method used is not supported for this endpoint."
+          },
+          "500": {
+            "description": "Internal Server Error. An unexpected condition was encountered on the server."
+          },
+          "502": {
+            "description": "Bad Gateway. The server was acting as a gateway or proxy and received an invalid response."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Course": {
+        "type": "object",
+        "properties": {
+          "course_id": {
+            "type": "integer",
+            "format": "int64",
+            "examples": [
+              10
+            ]
+          },
+          "course_name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "start_time": {
+            "type": "string",
+            "pattern": "hhmm"
+          },
+          "end_time": {
+            "type": "string",
+            "pattern": "hhmm"
+          },
+          "instructor": {
+            "$ref": "#/components/schemas/Instructor"
+          }
+        }
+      },
+      "Instructor": {
+        "type": "object",
+        "properties": {
+          "instructor_id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          }
+        }
+      }
+    }
+  }
+}
