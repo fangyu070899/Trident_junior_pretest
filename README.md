@@ -11,7 +11,7 @@ or
 #### Testing
 using pytest framework
 > api_test_data.py (fake data)
-test_create_new_course.py (testcase)
-test_delete_course.py (testcase)
-test_get_course_list.py (testcase)
+> test_create_new_course.py (testcase)
+> test_delete_course.py (testcase)
+> test_get_course_list.py (testcase)
 
